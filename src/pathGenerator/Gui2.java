@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 
 import java.awt.Font;
@@ -65,6 +66,8 @@ public class Gui2 {
 	
 	JComboBox<String> cbFitMethod;
 	
+	JCheckBox negateValues;
+	
 	FalconLinePlot blueAllianceGraph = new FalconLinePlot(new double[][]{{0.0,0.0}});
 	FalconLinePlot velocityGraph = new FalconLinePlot(new double[][]{{0.0,0.0}});
 	FalconLinePlot redAllianceGraph = new FalconLinePlot(new double[][]{{0.0,0.0}});
@@ -87,6 +90,8 @@ public class Gui2 {
 	double jerk;
 	double wheelBase;
 	
+	boolean negate = true;
+	
 	Trajectory left;
 	Trajectory right;
 	
@@ -106,7 +111,7 @@ public class Gui2 {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize() {	
 		frmMotionProfileGenerator = new JFrame();
 		frmMotionProfileGenerator.setResizable(false);
 		frmMotionProfileGenerator.setTitle("Motion Profile Generator");
@@ -166,6 +171,8 @@ public class Gui2 {
 		txtJerk.setBounds(222, 145, 86, 20);
 		trajecPanel.add(txtJerk);
 		txtJerk.setColumns(10);
+   	
+    	
 		
 		JButton btnGeneratePath = new JButton("Generate Path");
 		btnGeneratePath.setToolTipText("Generate Path");
@@ -270,6 +277,8 @@ public class Gui2 {
 		lblWheelBase.setBounds(142, 175, 80, 20);
 		trajecPanel.add(lblWheelBase);
 		
+
+		
 		txtAngle = new JTextField();
 		txtAngle.setBounds(257, 298, 63, 20);
 		trajecPanel.add(txtAngle);
@@ -340,6 +349,37 @@ public class Gui2 {
 		cbFitMethod.addItem("Quintic");
 		cbFitMethod.setBounds(222, 205, 86, 20);
 		trajecPanel.add(cbFitMethod);	
+		
+		// @author Kevin O'Brien
+		// negate paths
+		negateValues = new JCheckBox();
+		negateValues.setText("Negate values");
+		negateValues.setBounds(0, 0, 150, 50);
+		negateValues.setSelected(negate);
+		trajecPanel.add(negateValues);
+		
+		
+	
+		// @author Kevin O'Brien
+		// load preferences from prefs.bot
+		File prefs = new File("prefs.bot");
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(prefs));
+	    	String sTime = br.readLine();
+	    	String sVelocity = br.readLine();
+	    	String sAcceleration = br.readLine();
+	    	String sJerk = br.readLine();
+	    	String sWheel = br.readLine();
+	    	String sGen = br.readLine();
+	    	br.close();
+	    	txtTime.setText(sTime);
+	    	txtVelocity.setText(sVelocity);
+	    	txtAcceleration.setText(sAcceleration);
+	    	txtJerk.setText(sJerk);
+	    	txtWheelBase.setText(sWheel);
+	    	cbFitMethod.setSelectedItem(sGen);
+		} catch (IOException e) {
+		}
 		
 		JLabel lblFitMethod = new JLabel("Fit Method");
 		lblFitMethod.setBounds(142, 205, 80, 20);
@@ -1387,9 +1427,29 @@ public class Gui2 {
 					
 			    	// Detailed CSV with dt, x, y, position, velocity, acceleration, jerk, and heading
 			        File leftFile = new File(directory, fileName + "_left_detailed.csv");
+			        if(negateValues.isSelected()) {
+			        	for (Trajectory.Segment seg : left.segments) {
+				            seg.x *= -1.0;
+				            seg.y *= -1.0;
+				            seg.position *= -1.0;
+				            seg.velocity *= -1.0;
+				            seg.acceleration *= -1.0;
+				            seg.jerk *= -1.0;
+				        }
+			        	for (Trajectory.Segment seg : right.segments) {
+				            seg.x *= -1.0;
+				            seg.y *= -1.0;
+				            seg.position *= -1.0;
+				            seg.velocity *= -1.0;
+				            seg.acceleration *= -1.0;
+				            seg.jerk *= -1.0;
+				        }
+			        }
+			        
 			        Pathfinder.writeToCSV(leftFile, left);
 			        
 			        File rightFile = new File(directory, fileName + "_right_detailed.csv");
+			        
 			        Pathfinder.writeToCSV(rightFile, right);
 			        
 			    	// CSV with position and velocity. To be used with your robot.
