@@ -1452,11 +1452,17 @@ public class Gui2 {
 				        }
 			        }
 			        
-			        Pathfinder.writeToCSV(leftFile, left);
 			        
 			        File rightFile = new File(directory, fileName + "_right_detailed.csv");
 			        
-			        Pathfinder.writeToCSV(rightFile, right);
+			        
+			        if (negateValues.isSelected()) {
+			        	Pathfinder.writeToCSV(leftFile, right);
+				        Pathfinder.writeToCSV(rightFile, left);
+			        } else {
+			        	Pathfinder.writeToCSV(leftFile, left);
+				        Pathfinder.writeToCSV(rightFile, right);
+			        }
 			        
 			    	// CSV with position and velocity. To be used with your robot.
 			    	// save left path to CSV
