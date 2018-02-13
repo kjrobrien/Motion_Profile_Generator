@@ -95,8 +95,8 @@ public class Gui2 {
 	Trajectory left;
 	Trajectory right;
 	
-	File lFile;
-	File rFile;
+	//File lFile;
+	//File rFile;
 	File preferenceFile;
 	
 	String fileName;
@@ -1272,6 +1272,7 @@ public class Gui2 {
     		{
     			if(left != null)
     			{
+    				/*
     				lFile = new File(directory, fileName + "_left.csv");
 			        rFile = new File(directory, fileName + "_right.csv");
 			        
@@ -1295,7 +1296,7 @@ public class Gui2 {
 			    	FileWriter lfw = new FileWriter( lFile );
 					FileWriter rfw = new FileWriter( rFile );
 					PrintWriter lpw = new PrintWriter( lfw );
-					PrintWriter rpw = new PrintWriter( rfw );
+					PrintWriter rpw = new PrintWriter( rfw );*/
 					
 			    	// Detailed CSV with dt, x, y, position, velocity, acceleration, jerk, and heading
 			        File leftFile = new File(directory, fileName + "_left_detailed.csv");
@@ -1312,6 +1313,7 @@ public class Gui2 {
 			        
 			    	// CSV with position and velocity. To be used with your robot.
 			    	// save left path to CSV
+					/*
 			    	for (int i = 0; i < left.length(); i++) 
 			    	{			
 			    		Segment seg = left.get(i);
@@ -1327,7 +1329,7 @@ public class Gui2 {
 			    			
 			    	lpw.close();
 			    	rpw.close();
-			    	
+			    	*/
 			    	preferenceFile = new File(directory, fileName + "_Preferences.bot");
 			    	FileWriter pfw = new FileWriter(preferenceFile);
 			    	PrintWriter ppw = new PrintWriter(pfw);
@@ -1406,9 +1408,9 @@ public class Gui2 {
     		{
     			if(left != null)
     			{
-    				lFile = new File(directory, fileName + "_left.csv");
-			        rFile = new File(directory, fileName + "_right.csv");
-			        
+    				//lFile = new File(directory, fileName + "_left.csv");
+			        //rFile = new File(directory, fileName + "_right.csv");
+			        /*
 			        if( lFile.exists() || rFile.exists() )
 			        {
 			        	int n = JOptionPane.showConfirmDialog(null, "File already exist. Would you like to replace it?", "File Exists", JOptionPane.YES_NO_OPTION);
@@ -1430,7 +1432,7 @@ public class Gui2 {
 					FileWriter rfw = new FileWriter( rFile );
 					PrintWriter lpw = new PrintWriter( lfw );
 					PrintWriter rpw = new PrintWriter( rfw );
-					
+					*/
 			    	// Detailed CSV with dt, x, y, position, velocity, acceleration, jerk, and heading
 			        File leftFile = new File(directory, fileName + "_left_detailed.csv");
 			        if(negateValues.isSelected()) {
@@ -1463,7 +1465,7 @@ public class Gui2 {
 			        	Pathfinder.writeToCSV(leftFile, left);
 				        Pathfinder.writeToCSV(rightFile, right);
 			        }
-			        
+			        /*
 			    	// CSV with position and velocity. To be used with your robot.
 			    	// save left path to CSV
 			    	for (int i = 0; i < left.length(); i++) 
@@ -1480,7 +1482,7 @@ public class Gui2 {
 			    	}
 			    			
 			    	lpw.close();
-			    	rpw.close();
+			    	rpw.close();*/
 			    	
 			    	preferenceFile = new File(directory, fileName + "_Preferences.bot");
 			    	FileWriter pfw = new FileWriter(preferenceFile);
