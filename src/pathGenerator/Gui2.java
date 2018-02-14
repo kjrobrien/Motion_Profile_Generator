@@ -42,6 +42,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.Document;
 import javax.swing.text.Utilities;
 import javax.swing.JComboBox;
@@ -997,7 +999,7 @@ public class Gui2 {
         fileChooser.setDialogTitle("Choose a file to load.");
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setAcceptAllFileFilterUsed(false);
-        
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Bot file", "bot", "BOT"));
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
         	pFile = fileChooser.getSelectedFile();
         	
